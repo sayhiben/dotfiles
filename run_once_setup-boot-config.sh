@@ -38,12 +38,18 @@ hdmi_force_hotplug=1
 config_hdmi_boost=4
 EOF"
 
-# Fix HyperPixel rotation
-if grep -q "dtoverlay=vc4-kms-dpi-hyperpixel4" "$CONFIG_FILE"; then
+# Fix HyperPixel rotation (idempotent)
+if grep -q "^dtoverlay=vc4-kms-dpi-hyperpixel4$" "$CONFIG_FILE"; then
     echo "Fixing HyperPixel rotation..."
-    # Add rotation parameter if not present
+    # Add rotation parameter only if not present
     sudo sed -i 's/^dtoverlay=vc4-kms-dpi-hyperpixel4$/dtoverlay=vc4-kms-dpi-hyperpixel4,rotate=270/' "$CONFIG_FILE"
-    # Remove any conflicting display_rotate settings
+elif grep -q "^dtoverlay=vc4-kms-dpi-hyperpixel4,rotate=" "$CONFIG_FILE"; then
+    echo "HyperPixel rotation already configured"
+fi
+
+# Remove any conflicting display_rotate settings (idempotent)
+if grep -q '^display_rotate=' "$CONFIG_FILE"; then
+    echo "Removing conflicting display_rotate settings..."
     sudo sed -i '/^display_rotate=/d' "$CONFIG_FILE"
 fi
 
