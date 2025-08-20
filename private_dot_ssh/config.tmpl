@@ -1,0 +1,72 @@
+# SSH Client Configuration
+
+# Global settings
+Host *
+    # Keep connections alive
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    
+    # Reuse connections
+    ControlMaster auto
+    ControlPath ~/.ssh/sockets/%r@%h:%p
+    ControlPersist 10m
+    
+    # Security
+    StrictHostKeyChecking ask
+    HashKnownHosts yes
+    
+    # Forwarding
+    ForwardAgent no
+    ForwardX11 no
+    
+    # Compression
+    Compression yes
+    
+    # Use modern ciphers and algorithms
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com
+    MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com
+    KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org
+
+# GitHub
+Host github.com
+    User git
+    HostName github.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/id_ed25519
+
+# GitLab
+Host gitlab.com
+    User git
+    HostName gitlab.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/id_ed25519
+
+{{- if .isTermyte }}
+# Termyte specific hosts
+
+# Example: Development server
+# Host dev
+#     HostName dev.example.com
+#     User sayhiben
+#     Port 22
+#     IdentityFile ~/.ssh/id_ed25519
+{{- end }}
+
+# Common shortcuts
+# Host myserver
+#     HostName server.example.com
+#     User myuser
+#     Port 22
+#     IdentityFile ~/.ssh/id_ed25519
+
+# Bastion/Jump host example
+# Host internal
+#     HostName internal.example.com
+#     User myuser
+#     ProxyJump bastion.example.com
+
+# Local network
+Host 192.168.*
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    LogLevel QUIET

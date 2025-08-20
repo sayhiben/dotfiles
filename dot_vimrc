@@ -1,0 +1,131 @@
+" Vim configuration
+set nocompatible
+
+" General settings
+set encoding=utf-8
+set fileencoding=utf-8
+set backspace=indent,eol,start
+set history=1000
+set undolevels=1000
+set autoread
+set clipboard=unnamedplus
+set mouse=a
+set wildmenu
+set wildmode=list:longest,full
+set lazyredraw
+set ttyfast
+set updatetime=300
+set timeoutlen=500
+
+" UI settings
+set number
+set relativenumber
+set cursorline
+set showmatch
+set showcmd
+set showmode
+set ruler
+set laststatus=2
+set signcolumn=yes
+set wrap
+set linebreak
+set scrolloff=5
+set sidescrolloff=5
+
+" Colors and syntax
+syntax enable
+set background=dark
+set t_Co=256
+try
+    colorscheme desert
+catch
+endtry
+
+" Search settings
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set magic
+
+" Indent and tabs
+set expandtab
+set smarttab
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set autoindent
+set smartindent
+
+" File handling
+set nobackup
+set nowritebackup
+set noswapfile
+set hidden
+
+" Folding
+set foldenable
+set foldlevelstart=10
+set foldnestmax=10
+set foldmethod=indent
+
+" Key mappings
+let mapleader = ","
+
+" Easy window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Clear search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+
+" Quick save and quit
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>x :x<CR>
+
+" Move lines up/down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" Better indenting
+vnoremap < <gv
+vnoremap > >gv
+
+" File type specific settings
+autocmd FileType python setlocal shiftwidth=4 tabstop=4
+autocmd FileType javascript,typescript,json,yaml,html,css setlocal shiftwidth=2 tabstop=2
+autocmd FileType markdown setlocal wrap linebreak spell
+
+" Remove trailing whitespace on save
+autocmd BufWritePre * :%s/\s\+$//e
+
+" Return to last edit position
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+
+" Status line
+set statusline=
+set statusline+=%F\ 
+set statusline+=%m%r%h%w
+set statusline+=%=
+set statusline+=%y\ 
+set statusline+=[%{&fileencoding?&fileencoding:&encoding}]
+set statusline+=[%{&ff}]\ 
+set statusline+=%l/%L:%c\ 
+set statusline+=%p%%
+
+" Netrw (file explorer)
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_winsize = 25
+
+" Toggle file explorer
+nnoremap <leader>e :Lexplore<CR>

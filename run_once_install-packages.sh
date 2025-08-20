@@ -6,13 +6,75 @@ sudo apt update
 
 # List of packages to install
 PACKAGES=(
-    "wget"
-    "htop"
-    "git"
-    "vim"
-    "libsdl2-dev"
-    "nyancat"
+    # Essential tools
     "curl"
+    "wget"
+    "git"
+    "build-essential"
+    "software-properties-common"
+    
+    # Terminal tools
+    "htop"
+    "tmux"
+    "vim"
+    "neovim"
+    "jq"
+    "tree"
+    "ncdu"
+    "ranger"
+    "fzf"
+    "ripgrep"
+    "fd-find"
+    "bat"
+    "exa"
+    "tldr"
+    "neofetch"
+    "figlet"
+    
+    # Development
+    "python3"
+    "python3-pip"
+    "python3-venv"
+    "nodejs"
+    "npm"
+    "golang"
+    "rustc"
+    "cargo"
+    
+    # Network tools
+    "net-tools"
+    "nmap"
+    "traceroute"
+    "dnsutils"
+    "whois"
+    "openssh-client"
+    "openssh-server"
+    
+    # Archive tools
+    "zip"
+    "unzip"
+    "p7zip-full"
+    "rar"
+    "unrar"
+    
+    # System tools
+    "rsync"
+    "screen"
+    "at"
+    "cron"
+    "xclip"
+    
+    # Fun
+    "nyancat"
+    "cowsay"
+    "fortune"
+    "lolcat"
+    "cmatrix"
+    
+    # Libraries (for various tools)
+    "libsdl2-dev"
+    "libssl-dev"
+    "libffi-dev"
 )
 
 # Install packages if not already installed

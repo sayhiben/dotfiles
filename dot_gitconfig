@@ -1,9 +1,129 @@
+[user]
+	email = sayhiben@users.noreply.github.com
+	name = sayhiben
+
+[core]
+	editor = vim
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	pager = less -FRX
+	excludesfile = ~/.gitignore_global
+
+[color]
+	ui = auto
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+
 [credential "https://github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/usr/bin/gh auth git-credential
-[user]
-	email = sayhiben@users.noreply.github.com
-	name = sayhiben
+
+[alias]
+	# Shortcuts
+	s = status -sb
+	st = status
+	a = add
+	aa = add -A
+	ap = add -p
+	c = commit
+	cm = commit -m
+	ca = commit -a
+	cam = commit -am
+	amend = commit --amend
+	amendne = commit --amend --no-edit
+	
+	# Branch management
+	b = branch
+	ba = branch -a
+	bd = branch -d
+	bD = branch -D
+	co = checkout
+	cob = checkout -b
+	com = checkout main
+	cod = checkout develop
+	
+	# Diff
+	d = diff
+	ds = diff --staged
+	dc = diff --cached
+	dt = difftool
+	
+	# Log viewing
+	l = log --oneline --graph --decorate
+	la = log --oneline --graph --decorate --all
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+	ll = log --pretty=format:'%C(yellow)%h%Cred%d %Creset%s%Cblue [%cn]' --decorate --numstat
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	
+	# Remote
+	f = fetch
+	fa = fetch --all
+	p = push
+	pl = pull
+	plo = pull origin
+	plu = pull upstream
+	po = push origin
+	pu = push upstream
+	
+	# Stash
+	ss = stash save
+	sp = stash pop
+	sl = stash list
+	sa = stash apply
+	sd = stash drop
+	
+	# Reset
+	r = reset
+	r1 = reset HEAD^
+	r2 = reset HEAD^^
+	rh = reset --hard
+	rh1 = reset --hard HEAD^
+	rh2 = reset --hard HEAD^^
+	
+	# Finding
+	grep = grep -Ii
+	find = "!git ls-files | grep -i"
+	
+	# Utils
+	undo = reset --soft HEAD^
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	visual = !gitk
+	tags = tag -l
+	branches = branch -a
+	remotes = remote -v
+	contributors = shortlog --summary --numbered
+	whoami = config user.email
+	
+	# Show verbose output about tags, branches or remotes
+	t = tag -l
+	br = branch -a
+	re = remote -v
+
+[push]
+	default = current
+	followTags = true
+
+[pull]
+	rebase = false
+
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+
+[diff]
+	tool = vimdiff
+
+[init]
+	defaultBranch = main
+
+[fetch]
+	prune = true
+
+[rerere]
+	enabled = true

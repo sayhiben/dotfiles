@@ -1,0 +1,143 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# History settings
+HISTCONTROL=ignoreboth:erasedups
+HISTSIZE=10000
+HISTFILESIZE=20000
+HISTTIMEFORMAT="%F %T "
+shopt -s histappend
+
+# Update window size after each command
+shopt -s checkwinsize
+
+# Enable ** for recursive globbing
+shopt -s globstar
+
+# cd without typing cd
+shopt -s autocd
+
+# Correct minor spelling errors in cd
+shopt -s cdspell
+
+# Set variable identifying the chroot
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# Color prompt
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        color_prompt=yes
+    else
+        color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# Window title
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# Enable color support
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
+# Load aliases
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# Enable programmable completion
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Environment variables
+export EDITOR="vim"
+export VISUAL="vim"
+export BROWSER="firefox"
+export TERMINAL="xterm"
+export PAGER="less"
+export LESS="-FRX"
+
+# Path additions
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+
+# Development
+export REPOS="$HOME/dev"
+export PROJECTS="$HOME/projects"
+export DOTFILES="$HOME/.local/share/chezmoi"
+
+# Colors for ls
+export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
+
+# Man page colors
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+
+# FZF (if installed)
+if [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash
+    export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+fi
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# Rust/Cargo (if installed)
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# Go (if installed)
+[ -d "/usr/local/go/bin" ] && export PATH="/usr/local/go/bin:$PATH"
+[ -d "$HOME/go/bin" ] && export PATH="$HOME/go/bin:$PATH"
+
+# Welcome message
+if command -v figlet >/dev/null 2>&1; then
+    figlet -f small "$(hostname)"
+fi
+echo "Welcome, $(whoami)! Today is $(date '+%A, %B %d, %Y')"
+echo "System: $(uname -srm)"
+if command -v free >/dev/null 2>&1; then
+    echo "Memory: $(free -h | awk '/^Mem:/ {print $3 "/" $2}')"
+fi
+if [[ -f /sys/class/thermal/thermal_zone0/temp ]]; then
+    temp=$(cat /sys/class/thermal/thermal_zone0/temp)
+    echo "CPU Temp: $((temp/1000))°C"
+fi
+echo
