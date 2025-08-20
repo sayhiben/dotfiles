@@ -1,6 +1,12 @@
 #!/bin/bash
 # Setup CircuitPy USB auto-mount services
 
+# Only run on termyte or if explicitly needed for development
+if [ "$(hostname)" != "termyte" ]; then
+    echo "Not on termyte device, skipping CircuitPy setup (run manually if needed for development)"
+    exit 0
+fi
+
 # Check if we need to setup CircuitPy mount
 if [ ! -f /etc/systemd/system/media-circuitpy.mount ]; then
     echo "Setting up CircuitPy auto-mount..."

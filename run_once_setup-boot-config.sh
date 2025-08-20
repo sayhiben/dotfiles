@@ -1,18 +1,25 @@
 #!/bin/bash
 # Apply Raspberry Pi boot config for HyperPixel display
 
+# Device-specific check - only run on "termyte" (Pi Zero 2 W with HyperPixel)
+if [ "$(hostname)" != "termyte" ]; then
+    echo "Not on termyte device, skipping HyperPixel boot config..."
+    exit 0
+fi
+
+# Alternative: Check for specific Pi model
+if ! grep -q "Pi Zero 2 W" /proc/cpuinfo 2>/dev/null && \
+   ! grep -q "Pi Zero 2 W" /sys/firmware/devicetree/base/model 2>/dev/null; then
+    echo "Not a Pi Zero 2 W, skipping boot config..."
+    exit 0
+fi
+
 if [ -f /boot/firmware/config.txt ]; then
     CONFIG_FILE="/boot/firmware/config.txt"
 elif [ -f /boot/config.txt ]; then
     CONFIG_FILE="/boot/config.txt"
 else
     echo "Boot config not found, skipping..."
-    exit 0
-fi
-
-# Check if we're on a Raspberry Pi
-if ! grep -q "Raspberry Pi" /proc/cpuinfo 2>/dev/null; then
-    echo "Not a Raspberry Pi, skipping boot config..."
     exit 0
 fi
 

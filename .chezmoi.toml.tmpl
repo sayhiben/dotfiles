@@ -1,0 +1,11 @@
+{{- $hostname := .chezmoi.hostname -}}
+{{- $isTermyte := eq $hostname "termyte" -}}
+{{- $isRaspberryPi := contains "Raspberry Pi" (output "cat" "/proc/cpuinfo" | trim) -}}
+{{- $isPiZero2W := contains "Pi Zero 2 W" (output "cat" "/sys/firmware/devicetree/base/model" | trim) -}}
+
+[data]
+    hostname = {{ $hostname | quote }}
+    isTermyte = {{ $isTermyte }}
+    isRaspberryPi = {{ $isRaspberryPi }}
+    isPiZero2W = {{ $isPiZero2W }}
+    hasHyperPixel = {{ $isTermyte }}

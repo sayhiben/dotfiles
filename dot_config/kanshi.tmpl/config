@@ -1,0 +1,11 @@
+{{- if .isTermyte -}}
+profile {
+		output DPI-1 enable mode 480x800@60.061 position 0,0 transform 90
+}
+{{- else -}}
+# Default profile for non-HyperPixel displays
+profile {
+		output * enable
+}
+{{- end -}}
+
