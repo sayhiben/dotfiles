@@ -1,0 +1,7 @@
+README.md
+install.sh
+.git
+.gitignore
+LICENSE
+*.swp
+.DS_Store
