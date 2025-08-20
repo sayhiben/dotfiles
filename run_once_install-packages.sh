@@ -30,6 +30,8 @@ PACKAGES=(
     "tldr"
     "neofetch"
     "figlet"
+    "universal-ctags"
+    "silversearcher-ag"
     
     # Development
     "python3"
